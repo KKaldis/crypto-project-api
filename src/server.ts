@@ -16,7 +16,6 @@ import "./inits/mongo";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 //  ? Cors Configuration
 // app.use(
 //   cors({
@@ -36,29 +35,6 @@ app.use("/telegram", telegramRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //  * Service Status
-/**
- * @swagger
- * /status:
- *   get:
- *     summary: Get service status
- *     description: Retrieve the status of the service including mode and version.
- *     responses:
- *       200:
- *         description: Successful operation. Returns the service status.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 mode:
- *                   type: string
- *                   description: The current mode of the service.
- *                 version:
- *                   type: string
- *                   description: The version of the service.
- *       500:
- *         description: Internal Server Error
- */
 app.get("/status", (req: Request, res: Response) => {
   res.status(200).send(`Mode: ${NODE_ENV} - Version: ${VERSION}
   `);
