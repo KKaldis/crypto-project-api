@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import express from "express";
-import OrgReposRes from "./models.ts/org-repos.model";
+import OrgReposRes from "./models/org-repos.model";
 const orgRepos = express.Router();
 
 export const getOrgReposUrl = (owner: string): string => {

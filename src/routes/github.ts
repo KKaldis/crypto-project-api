@@ -41,6 +41,7 @@ import lastYearCommitActivityRoute, {
   getLastYearCommitActivity
 } from "./github/last-year-commit-activity";
 githubRoutes.use("/last-year-commit-activity", lastYearCommitActivityRoute);
+
 //! This should scan the entire project
 githubRoutes.use("/:project", async (req: Request, res: Response) => {
   const { project } = req.params;

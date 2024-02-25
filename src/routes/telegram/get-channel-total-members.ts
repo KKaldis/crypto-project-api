@@ -8,7 +8,7 @@ export const getChannelTotalMembersUrl = (channel: string): string => {
 
   // https://api.telegram.org/bot<token-here>/getChatMembersCount?chat_id=<channel-name>
 
-  return `${TELEGRAM_BASE_URL}/bot${TELEGRAM_TOKEN}/getChatMembersCount?chat_id=@${channel}`;
+  return `${TELEGRAM_BASE_URL}/bot${TELEGRAM_TOKEN}/getChatMembersCount?chat_id=${channel}`;
 };
 
 export const getChannelTotalMembers = async (channel: string): Promise<any> => {
@@ -21,11 +21,27 @@ channelTotalMembersRoute.get(
   async (req: Request, res: Response) => {
     const { channel } = req.params;
 
+    function parseString(inputString: string) {
+      try {
+        const { pathname } = new URL(inputString);
+        return "@" + pathname.substring(1);
+      } catch (error) {
+        if (inputString.startsWith("-")) {
+          return inputString;
+        } else if (/^[a-zA-Z]+$/.test(inputString)) {
+          return "@" + inputString;
+        } else {
+          console.log("String does not match any condition");
+          throw error;
+        }
+      }
+    }
+
     try {
-      const commitActivity = await getChannelTotalMembers(channel);
+      const commitActivity = await getChannelTotalMembers(parseString(channel));
       res.json(commitActivity);
     } catch (error: any) {
-      console.log(error);
+      // console.log(error);
       res.status(400);
     }
   }

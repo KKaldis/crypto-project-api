@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import express from "express";
-import UserReposRes from "./models.ts/users-repos.model";
+import UserReposRes from "./models/users-repos.model";
 const userReposRoute = express.Router();
 
 export const getUserReposUrl = (owner: string): string => {

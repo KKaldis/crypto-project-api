@@ -13,7 +13,7 @@ const paths: Paths = {
       description:
         "Get the current API status, mode (Development / Production) and version.",
       responses: {
-        "304": {
+        "200": {
           description: "Success",
           content: {
             "text/html": { example: "Mode: DEVELOPMENT - Version: 0.1" }
@@ -25,9 +25,9 @@ const paths: Paths = {
     }
   },
   "/github/{githubUser}": {
-    post: {
+    get: {
       tags: ["Github"],
-      summary: "Get all github data",
+      summary: "Get all user/organization data",
       description:
         "Returns organizations repos, user repos, repos statistics such as last year, last week etc. It calls all the the available github endpoints for all available repos.",
       parameters: [
@@ -42,10 +42,10 @@ const paths: Paths = {
         }
       ],
       responses: {
-        "304": {
+        "200": {
           description: "Success",
           content: {
-            "text/html": { example: "Mode: DEVELOPMENT - Version: 0.1" }
+            "application/json": {}
           }
         },
         "404": { description: "Not found" },
@@ -53,12 +53,11 @@ const paths: Paths = {
       }
     }
   },
-  "/github/user-repos/{githubUser}/": {
-    post: {
+  "/github/user-repos/{githubUser}": {
+    get: {
       tags: ["Github"],
-      summary: "Get current API status",
-      description:
-        "Get the current API status, mode (Development / Production) and version.",
+      summary: "Get user repos",
+      description: "Get 30 user repos.",
       parameters: [
         {
           in: "path",
@@ -71,10 +70,14 @@ const paths: Paths = {
         }
       ],
       responses: {
-        "304": {
+        "200": {
           description: "Success",
           content: {
-            "text/html": { example: "Mode: DEVELOPMENT - Version: 0.1" }
+            "application/json": {
+              schema: {
+                $ref: "#src/routes/github/models/user-repos.model.ts"
+              }
+            }
           }
         },
         "404": { description: "Not found" },
@@ -82,12 +85,11 @@ const paths: Paths = {
       }
     }
   },
-  "/github/org-repos/{githubUser}/": {
-    post: {
+  "/github/org-repos/{githubUser}": {
+    get: {
       tags: ["Github"],
-      summary: "Get current API status",
-      description:
-        "Get the current API status, mode (Development / Production) and version.",
+      summary: "Get organization repos",
+      description: "Get 30 of the organization repos.",
       parameters: [
         {
           in: "path",
@@ -96,14 +98,244 @@ const paths: Paths = {
           schema: {
             type: "string"
           },
-          description: "The GitHub user to fetch data for"
+          description: "The GitHub organization to fetch data for"
         }
       ],
       responses: {
-        "304": {
+        "200": {
           description: "Success",
           content: {
-            "text/html": { example: "Mode: DEVELOPMENT - Version: 0.1" }
+            "application/json": {}
+          }
+        },
+        "404": { description: "Not found" },
+        "500": { description: "Internal server error" }
+      }
+    }
+  },
+  "/github/weekly-commit-count/{githubUser}/{githubRepo}": {
+    get: {
+      tags: ["Github"],
+      summary: "Get weekly commit count",
+      description:
+        "Returns the total commit counts for the owner and total commit counts in all. all is everyone combined, including the owner in the last 52 weeks. If you'd like to get the commit counts for non-owners, you can subtract owner from all. The array order is oldest week (index 0) to most recent week. The most recent week is seven days ago at UTC midnight to today at UTC midnight.",
+      parameters: [
+        {
+          in: "path",
+          name: "githubUser",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: "The GitHub user / organization to fetch data for"
+        },
+        {
+          in: "path",
+          name: "githubRepo",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: "The GitHub repo to fetch data for"
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success",
+          content: {
+            "application/json": {}
+          }
+        },
+        "404": { description: "Not found" },
+        "500": { description: "Internal server error" }
+      }
+    }
+  },
+  "/github/weekly-commit-activity/{githubUser}/{githubRepo}": {
+    get: {
+      tags: ["Github"],
+      summary: "Get repo weekly commit activity",
+      description:
+        "Returns a weekly aggregate of the number of additions and deletions pushed to a repository. Note: This endpoint can only be used for repositories with fewer than 10,000 commits. If the repository contains 10,000 or more commits, a 422 status code will be returned.",
+      parameters: [
+        {
+          in: "path",
+          name: "githubUser",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: "The GitHub user / organization to fetch data for"
+        },
+        {
+          in: "path",
+          name: "githubRepo",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: "The GitHub repo to fetch data for"
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success",
+          content: {
+            "application/json": { example: "Mode: DEVELOPMENT - Version: 0.1" }
+          }
+        },
+        "404": { description: "Not found" },
+        "422": { description: "Repository contains 10,000 or more commits" },
+        "500": { description: "Internal server error" }
+      }
+    }
+  },
+  "/github/community-profile-metrics/{githubUser}/{githubRepo}": {
+    get: {
+      tags: ["Github"],
+      summary: "Get repo community profile metrics",
+      url: "https://docs.github.com/en/rest/metrics/community#get-community-profile-metrics",
+      description:
+        "Returns all community profile metrics for a repository. The repository cannot be a fork. The returned metrics include an overall health score, the repository description, the presence of documentation, the detected code of conduct, the detected license, and the presence of ISSUE_TEMPLATE, PULL_REQUEST_TEMPLATE, README, and CONTRIBUTING files. The health_percentage score is defined as a percentage of how many of the recommended community health files are present. For more information, see 'About community profiles for public repositories.' content_reports_enabled is only returned for organization-owned repositories.",
+      parameters: [
+        {
+          in: "path",
+          name: "githubUser",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: "The GitHub user / organization to fetch data for"
+        },
+        {
+          in: "path",
+          name: "githubRepo",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: "The GitHub repo to fetch data for"
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success",
+          content: {
+            "application/json": {}
+          }
+        },
+        "404": { description: "Not found" },
+        "500": { description: "Internal server error" }
+      }
+    }
+  },
+  "/github/all-contributor-commit-activity/{githubUser}/{githubRepo}": {
+    get: {
+      tags: ["Github"],
+      summary: "Get total number of commits authored by the contributor",
+      description: `Returns the total number of commits authored by the contributor. In addition, the response includes a Weekly Hash (weeks array) with the following information:
+
+        w - Start of the week, given as a Unix timestamp.
+        a - Number of additions
+        d - Number of deletions
+        c - Number of commits
+
+        Note: This endpoint will return 0 values for all addition and deletion counts in repositories with 10,000 or more commits.`,
+      parameters: [
+        {
+          in: "path",
+          name: "githubUser",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: "The GitHub user / organization to fetch data for"
+        },
+        {
+          in: "path",
+          name: "githubRepo",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: "The GitHub repo to fetch data for"
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success",
+          content: {
+            "application/json": {}
+          }
+        },
+        "404": { description: "Not found" },
+        "500": { description: "Internal server error" }
+      }
+    }
+  },
+  "/github/last-year-commit-activity/{githubUser}/{githubRepo}": {
+    get: {
+      tags: ["Github"],
+      summary: "Get last year of commit activity",
+      description:
+        "Returns the last year of commit activity grouped by week. The days array is a group of commits per day, starting on Sunday.",
+      parameters: [
+        {
+          in: "path",
+          name: "githubUser",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: "The GitHub user / organization to fetch data for"
+        },
+        {
+          in: "path",
+          name: "githubRepo",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: "The GitHub repo to fetch data for"
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success",
+          content: {
+            "application/json": {}
+          }
+        },
+        "404": { description: "Not found" },
+        "500": { description: "Internal server error" }
+      }
+    }
+  },
+  "/telegram/get-channel-total-members/{channelName}/": {
+    get: {
+      tags: ["Telegram"],
+      summary: "Get channel total members",
+      description: "Returns the total members of a telegram channel.",
+      parameters: [
+        {
+          in: "path",
+          name: "channelName",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: `The Telegram channel name / invite url / id
+            
+    ID schema: -1001272071252
+    Invite URL schema: https://t.me/flashtokenenglish
+    Name schema: flashtokenenglish`
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success",
+          content: {
+            "application/json": { example: 3666 }
           }
         },
         "404": { description: "Not found" },
