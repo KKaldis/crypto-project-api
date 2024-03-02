@@ -12,6 +12,8 @@ const { VERSION, PORT, NODE_ENV } = process.env;
 
 //  ? Connect MongoDB
 import "./inits/mongo";
+import discordRoutes from "@routes/discrod";
+import otherRoutes from "@routes/other";
 
 const app = express();
 app.use(express.json());
@@ -30,6 +32,12 @@ app.use("/github", githubRoutes);
 
 //  * Telegram endpoints
 app.use("/telegram", telegramRoutes);
+
+//  * Discord endpoints
+app.use("/discord", discordRoutes);
+
+//  * Other tools endpoints
+app.use("/other", otherRoutes);
 
 //  * API Docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));

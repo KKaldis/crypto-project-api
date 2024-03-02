@@ -8,12 +8,14 @@ export const getChannelTotalMembersUrl = (channel: string): string => {
 
   // https://api.telegram.org/bot<token-here>/getChatMembersCount?chat_id=<channel-name>
 
-  return `${TELEGRAM_BASE_URL}/bot${TELEGRAM_TOKEN}/getChatMembersCount?chat_id=${channel}`;
+  return `${TELEGRAM_BASE_URL}/bot${TELEGRAM_TOKEN}/getChannels?chat_id=${channel}`;
 };
 
 export const getChannelTotalMembers = async (channel: string): Promise<any> => {
   const response = await axios.get(getChannelTotalMembersUrl(channel));
-  return response.data.result;
+  console.log(response.data);
+
+  return response.data;
 };
 
 channelTotalMembersRoute.get(

@@ -235,12 +235,12 @@ const paths: Paths = {
       summary: "Get total number of commits authored by the contributor",
       description: `Returns the total number of commits authored by the contributor. In addition, the response includes a Weekly Hash (weeks array) with the following information:
 
-        w - Start of the week, given as a Unix timestamp.
-        a - Number of additions
-        d - Number of deletions
-        c - Number of commits
+    w - Start of the week, given as a Unix timestamp.
+    a - Number of additions
+    d - Number of deletions
+    c - Number of commits
 
-        Note: This endpoint will return 0 values for all addition and deletion counts in repositories with 10,000 or more commits.`,
+    Note: This endpoint will return 0 values for all addition and deletion counts in repositories with 10,000 or more commits.`,
       parameters: [
         {
           in: "path",
@@ -336,6 +336,71 @@ const paths: Paths = {
           description: "Success",
           content: {
             "application/json": { example: 3666 }
+          }
+        },
+        "404": { description: "Not found" },
+        "500": { description: "Internal server error" }
+      }
+    }
+  },
+  "/discrod/get-server-total-members/{serverInvite}/": {
+    get: {
+      tags: ["Discord"],
+      summary: "Get channel total members",
+      description: "Returns the total members of a telegram channel.",
+      parameters: [
+        {
+          in: "path",
+          name: "serverInvite",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: `The Discord server invite url`
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success",
+          content: {
+            "application/json": { example: 3666 }
+          }
+        },
+        "404": { description: "Not found" },
+        "500": { description: "Internal server error" }
+      }
+    }
+  },
+  "/other/fear-greed/{limit}": {
+    get: {
+      tags: ["Other"],
+      summary: "Fear Greed",
+      description: "Returns the Fear Greed index.",
+      parameters: [
+        {
+          in: "path",
+          name: "limit",
+          required: true,
+          schema: {
+            type: "number"
+          },
+          description: `Return latest number of {limit} results`
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success",
+          content: {
+            "application/json": {
+              example: [
+                {
+                  value: "80",
+                  value_classification: "Extreme Greed",
+                  timestamp: "1709337600",
+                  time_until_update: "84816"
+                }
+              ]
+            }
           }
         },
         "404": { description: "Not found" },
