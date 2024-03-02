@@ -407,6 +407,133 @@ const paths: Paths = {
         "500": { description: "Internal server error" }
       }
     }
+  },
+  "/other/website-tech/{url}": {
+    get: {
+      tags: ["Other"],
+      summary: "Website Technologies",
+      description: "Returns the Fear Greed index.",
+      parameters: [
+        {
+          in: "path",
+          name: "url",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: `Return latest number of {limit} results`
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success",
+          content: {
+            "application/json": {
+              example: {
+                url: "https://qb-gon.com",
+                matching_ingredients: 10,
+                matches: {
+                  analytics: [
+                    {
+                      id: "google-analytics",
+                      name: "Google Analytics",
+                      description:
+                        "Google Analytics is a comprehensive web analytics service offered by Google.",
+                      icon: "/icon/google-analytics.png",
+                      match_percentage: 42.2
+                    },
+                    {
+                      id: "google-tag-manager",
+                      name: "Google Tag Manager",
+                      description:
+                        "Google Tag Manager is a web-based tool by Google that allows website owners and marketers to manage and deploy various tracking codes and tags on their websites.",
+                      icon: "/icon/google-tag-manager.png",
+                      match_percentage: 47.9
+                    }
+                  ],
+                  cms: [
+                    {
+                      id: "wordpress",
+                      name: "WordPress",
+                      description:
+                        "WordPress is a widely-used open-source content management system (CMS) that enables users to create and manage websites and blogs.",
+                      icon: "/icon/wordpress.png",
+                      match_percentage: 20.7
+                    }
+                  ],
+                  libraries: [
+                    {
+                      id: "jquery",
+                      name: "jQuery",
+                      description:
+                        "jQuery is a JavaScript library that simplifies HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax.",
+                      icon: "/icon/jquery.png",
+                      match_percentage: 43.1
+                    }
+                  ],
+                  other: [
+                    {
+                      id: "gzip",
+                      name: "Gzip",
+                      description:
+                        "Gzip compression is a lossless data compression algorithm that is used to reduce the size of files.",
+                      icon: "/icon/zip.png",
+                      match_percentage: 90.6
+                    },
+                    {
+                      id: "json-schema",
+                      name: "JSON Schema",
+                      description:
+                        "JSON Schema is used to create structured data on the Internet, on web pages, in email messages, and beyond.",
+                      icon: "/icon/json-schema.png",
+                      match_percentage: 39.9
+                    },
+                    {
+                      id: "php",
+                      name: "PHP",
+                      description:
+                        "PHP is a general-purpose, server-side scripting language that is especially suited for web development.",
+                      icon: "/icon/php.png",
+                      match_percentage: 9.5
+                    },
+                    {
+                      id: "rss",
+                      name: "RSS",
+                      description:
+                        "RSS stands for Really Simple Syndication. It is a format for delivering regularly updated content, such as news headlines or blog posts, to subscribers.",
+                      icon: "/icon/rss.png",
+                      match_percentage: 21.2
+                    }
+                  ],
+                  security: [
+                    {
+                      id: "hsts",
+                      name: "HSTS",
+                      description:
+                        "HSTS (HTTP Strict Transport Security) is a security mechanism that forces browsers to only connect to a website over HTTPS.",
+                      icon: "/icon/hsts.png",
+                      match_percentage: 48.4
+                    }
+                  ],
+                  servers: [
+                    {
+                      id: "nginx",
+                      name: "Nginx",
+                      description:
+                        "Nginx (pronounced 'engine-x') is an open-source web server, reverse proxy, and mail proxy.",
+                      icon: "/icon/nginx.png",
+                      match_percentage: 14.2
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "404": { description: "Not found" },
+        "500": { description: "Internal server error" }
+      }
+    }
   }
 };
 

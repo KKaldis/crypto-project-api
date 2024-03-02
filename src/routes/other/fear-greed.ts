@@ -7,14 +7,14 @@ import { Request, Response } from "express";
 import express from "express";
 const fearGreed = express.Router();
 
-export const getFearGreed = (limit: number): string => {
+export const getFearGreedUrl = (limit: number): string => {
   return `https://api.alternative.me/fng/?limit=${limit}`;
 };
 
-export const getOrgRepos = async (
+export const getFearGreed = async (
   limit: number
 ): Promise<FearAndGreedResponse> => {
-  const response = await axios.get(getFearGreed(limit));
+  const response = await axios.get(getFearGreedUrl(limit));
   return response.data;
 };
 
@@ -24,7 +24,7 @@ fearGreed.get(
     const { limit } = req.params;
 
     try {
-      const fearGreed = await getOrgRepos(Number(limit));
+      const fearGreed = await getFearGreed(Number(limit));
       res.json(fearGreed.data);
     } catch (error: any) {
       console.log(error);
