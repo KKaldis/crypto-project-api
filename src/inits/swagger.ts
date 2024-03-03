@@ -534,6 +534,87 @@ const paths: Paths = {
         "500": { description: "Internal server error" }
       }
     }
+  },
+  "/other/website-whois/{domain}": {
+    get: {
+      tags: ["Other"],
+      summary: "Domain whois",
+      description: "Returns whois information",
+      parameters: [
+        {
+          in: "path",
+          name: "domain",
+          required: true,
+          schema: {
+            type: "string"
+          },
+          description: `Return the {domain} whois`
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success",
+          content: {
+            "application/json": {
+              example: {
+                domainName: "QB-GON.COM",
+                registryDomainId: "2024645388_DOMAIN_COM-VRSN",
+                registrarWhoisServer: "whois.papaki.gr",
+                registrarUrl: "https://www.papaki.com",
+                updatedDate: "2022-11-10T00:10:35",
+                creationDate: "2016-04-28T16:46:43",
+                registrarRegistrationExpirationDate: "2024-04-28T16:46:43",
+                registrar: "Enartia Single Member S.A.",
+                registrarIanaId: "1727",
+                reseller: "Enartia S.A.",
+                domainStatus:
+                  "clientTransferProhibited https://icann.org/epp#clientTransferProhibited clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited",
+                registrantName: "REDACTED FOR PRIVACY",
+                registrantOrganization: "REDACTED FOR PRIVACY",
+                registrantStreet: "REDACTED FOR PRIVACY",
+                registrantCity: "REDACTED FOR PRIVACY",
+                registrantStateProvince: "Patisia",
+                registrantPostalCode: "REDACTED FOR PRIVACY",
+                registrantCountry: "GR",
+                registrantPhone: "REDACTED FOR PRIVACY",
+                registrantFax: "REDACTED FOR PRIVACY",
+                registrantEmail:
+                  "https://tieredaccess.com/contact/018b84eb-a9be-4d19-bf66-d7ad8600ae37",
+                adminName: "REDACTED FOR PRIVACY",
+                adminOrganization: "REDACTED FOR PRIVACY",
+                adminStreet: "REDACTED FOR PRIVACY",
+                adminCity: "REDACTED FOR PRIVACY",
+                adminStateProvince: "REDACTED FOR PRIVACY",
+                adminPostalCode: "REDACTED FOR PRIVACY",
+                adminCountry: "REDACTED FOR PRIVACY",
+                adminPhone: "REDACTED FOR PRIVACY",
+                adminFax: "REDACTED FOR PRIVACY",
+                adminEmail: "REDACTED FOR PRIVACY",
+                techName: "REDACTED FOR PRIVACY",
+                techOrganization: "REDACTED FOR PRIVACY",
+                techStreet: "REDACTED FOR PRIVACY",
+                techCity: "REDACTED FOR PRIVACY",
+                techStateProvince: "REDACTED FOR PRIVACY",
+                techPostalCode: "REDACTED FOR PRIVACY",
+                techCountry: "REDACTED FOR PRIVACY",
+                techPhone: "REDACTED FOR PRIVACY",
+                techFax: "REDACTED FOR PRIVACY",
+                techEmail: "REDACTED FOR PRIVACY",
+                nameServer: "ns1141.papaki.gr ns2141.papaki.gr",
+                dnssec: "unsigned",
+                registrarAbuseContactEmail: "abuse@papaki.com",
+                registrarAbuseContactPhone: "+30.2118002275",
+                urlOfTheIcannWhoisDataProblemReportingSystem:
+                  "https://icann.org/wicf",
+                lastUpdateOfWhoisDatabase: "2024-03-03T12:25:59Z <<<"
+              }
+            }
+          }
+        },
+        "404": { description: "Not found" },
+        "500": { description: "Internal server error" }
+      }
+    }
   }
 };
 
