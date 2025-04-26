@@ -56,8 +56,8 @@ A dedicated logic layer for **data structuring, deduplication, enrichment, and p
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/crypto-intel-api.git
-cd crypto-intel-api
+git clone https://github.com/KKaldis/crypto-project-api.git
+cd crypto-project-api
 ```
 
 ### 2. Install dependencies
